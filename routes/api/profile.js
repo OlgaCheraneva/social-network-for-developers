@@ -217,17 +217,22 @@ router.put(
 // @desc    Delete experience from profile
 // @access  Private
 router.delete('/experience/:experience_id', auth, async (req, res) => {
-    const profile = await Profile.findOne({user: req.user.id});
+    try {
+        const profile = await Profile.findOne({user: req.user.id});
 
-    const removeIndex = profile.experience
-        .map((item) => item.id)
-        .indexOf(req.params.experience_id);
+        const removeIndex = profile.experience
+            .map((item) => item.id)
+            .indexOf(req.params.experience_id);
 
-    profile.experience.splice(removeIndex, 1);
+        profile.experience.splice(removeIndex, 1);
 
-    await profile.save();
+        await profile.save();
 
-    res.json(profile);
+        res.json(profile);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 // @route   PUT api/profile/education
@@ -277,17 +282,22 @@ router.put(
 // @desc    Delete education from profile
 // @access  Private
 router.delete('/education/:education_id', auth, async (req, res) => {
-    const profile = await Profile.findOne({user: req.user.id});
+    try {
+        const profile = await Profile.findOne({user: req.user.id});
 
-    const removeIndex = profile.education
-        .map((item) => item.id)
-        .indexOf(req.params.education_id);
+        const removeIndex = profile.education
+            .map((item) => item.id)
+            .indexOf(req.params.education_id);
 
-    profile.education.splice(removeIndex, 1);
+        profile.education.splice(removeIndex, 1);
 
-    await profile.save();
+        await profile.save();
 
-    res.json(profile);
+        res.json(profile);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
 });
 
 module.exports = router;
