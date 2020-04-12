@@ -1,3 +1,5 @@
+const config = require('config');
+const request = require('request');
 const router = require('express').Router();
 const normalize = require('normalize-url');
 const {check, validationResult} = require('express-validator');
@@ -299,5 +301,38 @@ router.delete('/education/:education_id', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repositories from Github
+// @access  Public
+router.get('/github/:username', async (req, res) => {
+    try {
+        const options = getUserReposOptions(req.params.username);
+        request(options, (error, response, body) => {
+            if (error) {
+                console.error(error);
+            }
+
+            if (response.statusCode !== 200) {
+                return res.status(404).json({msg: 'Github profile not found'});
+            }
+
+            res.json(JSON.parse(body));
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+function getUserReposOptions(username) {
+    return {
+        uri: `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${config.get(
+            'githubClientId'
+        )}&client_secret=${config.get('githubClientSecret')}`,
+        method: 'GET',
+        headers: {'user-agent': 'node.js'},
+    };
+}
 
 module.exports = router;
