@@ -10,6 +10,8 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import ProfileForm from './components/profile-forms/ProfileForm';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
 
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
@@ -46,6 +48,16 @@ const App = () => {
                                 exact
                                 path="/edit-profile"
                                 component={ProfileForm}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/add-experience"
+                                component={AddExperience}
+                            />
+                            <PrivateRoute
+                                exact
+                                path="/add-education"
+                                component={AddEducation}
                             />
                         </Switch>
                     </section>
