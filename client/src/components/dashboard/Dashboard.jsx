@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import Spinner from '../layout/Spinner';
+import DashboardActions from './DashboardActions';
 import {getProfile} from '../../actions/profile';
 
 const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
@@ -28,12 +29,12 @@ const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
                         You haven't setup a profile yet. Please add some
                         information
                     </p>
-                    <Link to="/create-profile" className="btn btn-primary my-1">
+                    <Link to="/edit-profile" className="btn btn-primary my-1">
                         Create Profile
                     </Link>
                 </Fragment>
             ) : (
-                <Fragment></Fragment>
+                <DashboardActions />
             )}
         </Fragment>
     );

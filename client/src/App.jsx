@@ -44,7 +44,7 @@ const App = () => {
                             />
                             <PrivateRoute
                                 exact
-                                path="/create-profile"
+                                path="/edit-profile"
                                 component={ProfileForm}
                             />
                         </Switch>
