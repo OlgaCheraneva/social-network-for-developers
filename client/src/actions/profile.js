@@ -20,3 +20,5 @@ export const getProfile = () => async (dispatch) => {
         });
     }
 };
+
+export const createProfile = () => async (dispatch) => {};
