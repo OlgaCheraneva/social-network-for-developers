@@ -5,6 +5,7 @@ const normalize = require('normalize-url');
 const {check, validationResult} = require('express-validator');
 
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 
@@ -161,8 +162,7 @@ router.get('/user/:id', async (req, res) => {
 // @access  Private
 router.delete('/', auth, async (req, res) => {
     try {
-        // @todo - remove user's posts
-
+        await Post.deleteMany({user: req.user.id});
         await Profile.findOneAndDelete({user: req.user.id});
         await User.findOneAndDelete({_id: req.user.id});
 

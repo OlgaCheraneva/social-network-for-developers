@@ -7,9 +7,14 @@ import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
-import {getProfile} from '../../actions/profile';
+import {getProfile, deleteAccount} from '../../actions/profile';
 
-const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
+const Dashboard = ({
+    auth: {user},
+    profile: {loading, profile},
+    getProfile,
+    deleteAccount,
+}) => {
     useEffect(() => {
         getProfile();
         // eslint-disable-next-line
@@ -42,6 +47,14 @@ const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
                     <Education />
                 </Fragment>
             )}
+            <div className="my-2">
+                <button
+                    className="btn btn-danger"
+                    onClick={() => deleteAccount()}
+                >
+                    <i className="fas fa-user-minus" /> Delete My Account
+                </button>
+            </div>
         </Fragment>
     );
 };
@@ -50,6 +63,7 @@ Dashboard.propTypes = {
     auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
     getProfile: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -57,4 +71,4 @@ const mapStateToProps = (state) => ({
     profile: state.profile,
 });
 
-export default connect(mapStateToProps, {getProfile})(Dashboard);
+export default connect(mapStateToProps, {getProfile, deleteAccount})(Dashboard);
