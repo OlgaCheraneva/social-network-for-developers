@@ -45,13 +45,7 @@ const AddEducation = ({history, addEducation}) => {
                 that you have attended
             </p>
             <small>* = required field</small>
-            <form
-                className="form"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    addEducation(formData, history);
-                }}
-            >
+            <form className="form" onSubmit={onSubmit}>
                 <div className="form-group">
                     <input
                         type="text"

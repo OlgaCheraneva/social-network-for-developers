@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import {GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE} from './types';
+import {
+    GET_PROFILE,
+    PROFILE_ERROR,
+    UPDATE_PROFILE,
+    CLEAR_PROFILE,
+    DELETE_ACCOUNT,
+} from './types';
 import {setAlert} from './alert';
 
 export const getProfile = () => async (dispatch) => {
@@ -63,11 +69,36 @@ export const createOrUpdateProfile = (
     }
 };
 
+export const deleteAccount = () => async (dispatch) => {
+    if (window.confirm('Are you sure? This can not bo undone.')) {
+        try {
+            await axios.delete('/api/profile');
+
+            dispatch({type: CLEAR_PROFILE});
+            dispatch({type: DELETE_ACCOUNT});
+
+            dispatch(setAlert('Your account has been permanently deleted'));
+        } catch (error) {
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: error.response.data.msg,
+                    status: error.response.status,
+                },
+            });
+        }
+    }
+};
+
 export const addExperience = (formData, history) =>
     addProfileInfo(formData, history, 'experience');
 
 export const addEducation = (formData, history) =>
     addProfileInfo(formData, history, 'education');
+
+export const deleteExperience = (id) => deleteProfileInfo(id, 'experience');
+
+export const deleteEducation = (id) => deleteProfileInfo(id, 'education');
 
 function addProfileInfo(formData, history, category) {
     return async (dispatch) => {
@@ -89,9 +120,7 @@ function addProfileInfo(formData, history, category) {
                 payload: res.data,
             });
 
-            const categoryName =
-                category[0].toUpperCase() + category.substring(1).toLowerCase();
-            dispatch(setAlert(`${categoryName} Added`, 'success'));
+            dispatch(setAlert(`${capitalizeWord(category)} Added`, 'success'));
 
             history.push('/dashboard');
         } catch (error) {
@@ -112,4 +141,33 @@ function addProfileInfo(formData, history, category) {
             });
         }
     };
+}
+
+function deleteProfileInfo(id, category) {
+    return async (dispatch) => {
+        try {
+            const res = await axios.delete(`/api/profile/${category}/${id}`);
+
+            dispatch({
+                type: UPDATE_PROFILE,
+                payload: res.data,
+            });
+
+            dispatch(
+                setAlert(`${capitalizeWord(category)} Removed`, 'success')
+            );
+        } catch (error) {
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: error.response.data.msg,
+                    status: error.response.status,
+                },
+            });
+        }
+    };
+}
+
+function capitalizeWord(word) {
+    return word[0].toUpperCase() + word.substring(1).toLowerCase();
 }

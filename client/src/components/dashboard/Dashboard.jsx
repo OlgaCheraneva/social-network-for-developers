@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions';
+import Experience from './Experience';
+import Education from './Education';
 import {getProfile} from '../../actions/profile';
 
 const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
@@ -34,7 +36,11 @@ const Dashboard = ({auth: {user}, profile: {loading, profile}, getProfile}) => {
                     </Link>
                 </Fragment>
             ) : (
-                <DashboardActions />
+                <Fragment>
+                    <DashboardActions />
+                    <Experience />
+                    <Education />
+                </Fragment>
             )}
         </Fragment>
     );
