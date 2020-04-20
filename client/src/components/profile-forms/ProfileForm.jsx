@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {createProfile, getProfile} from '../../actions/profile';
+import {createOrUpdateProfile, getProfile} from '../../actions/profile';
 
 const initialState = {
     company: '',
@@ -20,9 +20,9 @@ const initialState = {
     instagram: '',
 };
 
-const CreateProfile = ({
+const ProfileForm = ({
     profile: {loading, profile},
-    createProfile,
+    createOrUpdateProfile,
     getProfile,
     history,
 }) => {
@@ -70,7 +70,11 @@ const CreateProfile = ({
 
     const onSubmit = (e) => {
         e.preventDefault();
-        createProfile(formData, history, true);
+        createOrUpdateProfile(
+            formData,
+            history,
+            profile === null ? false : true
+        );
     };
 
     return (
@@ -251,16 +255,16 @@ const CreateProfile = ({
     );
 };
 
-CreateProfile.propTypes = {
+ProfileForm.propTypes = {
     profile: PropTypes.object.isRequired,
     getProfile: PropTypes.func.isRequired,
-    createProfile: PropTypes.func.isRequired,
+    createOrUpdateProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     profile: state.profile,
 });
 
-export default connect(mapStateToProps, {getProfile, createProfile})(
-    withRouter(CreateProfile)
+export default connect(mapStateToProps, {getProfile, createOrUpdateProfile})(
+    withRouter(ProfileForm)
 );
