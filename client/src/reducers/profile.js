@@ -1,5 +1,8 @@
 import {
     GET_PROFILE,
+    GET_PROFILES,
+    GET_REPOSITORIES,
+    NO_REPOSITORIES,
     UPDATE_PROFILE,
     PROFILE_ERROR,
     CLEAR_PROFILE,
@@ -20,6 +23,24 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 profile: action.payload,
+                loading: false,
+            };
+        case GET_PROFILES:
+            return {
+                ...state,
+                profiles: action.payload,
+                loading: false,
+            };
+        case GET_REPOSITORIES:
+            return {
+                ...state,
+                repositories: action.payload,
+                loading: false,
+            };
+        case NO_REPOSITORIES:
+            return {
+                ...state,
+                repositories: [],
                 loading: false,
             };
         case PROFILE_ERROR:
