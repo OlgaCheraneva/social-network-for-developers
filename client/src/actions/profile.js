@@ -9,11 +9,14 @@ import {
     PROFILE_ERROR,
     CLEAR_PROFILE,
     ACCOUNT_DELETED,
+    SET_LOADING,
 } from './types';
 import {setAlert} from './alert';
 
 export const getProfiles = () => async (dispatch) => {
+    dispatch({type: SET_LOADING});
     dispatch({type: CLEAR_PROFILE});
+    dispatch({type: SET_LOADING});
 
     try {
         const res = await axios.get('/api/profile');

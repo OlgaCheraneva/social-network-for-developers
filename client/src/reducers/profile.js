@@ -6,6 +6,7 @@ import {
     UPDATE_PROFILE,
     PROFILE_ERROR,
     CLEAR_PROFILE,
+    SET_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -55,6 +56,11 @@ export default (state = initialState, action) => {
                 profile: null,
                 repositories: [],
                 loading: false,
+            };
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: true,
             };
         default:
             return state;
