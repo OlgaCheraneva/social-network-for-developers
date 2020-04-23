@@ -13,6 +13,7 @@ import ProfileForm from './components/profile-forms/ProfileForm';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
@@ -44,6 +45,11 @@ const App = () => {
                                 exact
                                 path="/profiles"
                                 component={Profiles}
+                            />
+                            <Route
+                                exact
+                                path="/profile/:id"
+                                component={Profile}
                             />
                             <PrivateRoute
                                 exact
