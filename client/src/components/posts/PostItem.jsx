@@ -4,9 +4,16 @@ import Moment from 'react-moment';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {likePost, unlikePost} from '../../actions/post';
+import {likePost, unlikePost, deletePost} from '../../actions/post';
 
-const PostItem = ({auth, post, showActions, likePost, unlikePost}) => {
+const PostItem = ({
+    auth,
+    post,
+    showActions,
+    likePost,
+    unlikePost,
+    deletePost,
+}) => {
     const {_id, text, name, avatar, user, likes, comments, date} = post;
 
     return (
@@ -46,7 +53,10 @@ const PostItem = ({auth, post, showActions, likePost, unlikePost}) => {
                             )}
                         </Link>
                         {!auth.loading && user === auth.user._id && (
-                            <button className="btn btn-danger">
+                            <button
+                                onClick={() => deletePost(_id)}
+                                className="btn btn-danger"
+                            >
                                 <i className="fas fa-times" />
                             </button>
                         )}
@@ -67,8 +77,11 @@ PostItem.propTypes = {
     showActions: PropTypes.bool,
     likePost: PropTypes.func.isRequired,
     unlikePost: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({auth: state.auth});
 
-export default connect(mapStateToProps, {likePost, unlikePost})(PostItem);
+export default connect(mapStateToProps, {likePost, unlikePost, deletePost})(
+    PostItem
+);
