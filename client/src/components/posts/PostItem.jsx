@@ -4,7 +4,9 @@ import Moment from 'react-moment';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-const PostItem = ({auth, post, showActions}) => {
+import {likePost, unlikePost} from '../../actions/post';
+
+const PostItem = ({auth, post, showActions, likePost, unlikePost}) => {
     const {_id, text, name, avatar, user, likes, comments, date} = post;
 
     return (
@@ -22,11 +24,18 @@ const PostItem = ({auth, post, showActions}) => {
                 </p>
                 {showActions && (
                     <Fragment>
-                        <button className="btn btn-light">
+                        <button
+                            onClick={() => likePost(_id)}
+                            className="btn btn-light"
+                        >
                             <i className="fas fa-thumbs-up" />{' '}
-                            <span>{likes.length > 0 && likes.length}</span>
+                            {likes.length > 0 && <span>{likes.length}</span>}
+                            {/* <span>{likes.length > 0 && likes.length}</span> */}
                         </button>
-                        <button className="btn btn-light">
+                        <button
+                            onClick={() => unlikePost(_id)}
+                            className="btn btn-light"
+                        >
                             <i className="fas fa-thumbs-down" />
                         </button>
                         <Link to={`/posts/${_id}`} className="btn btn-primary">
@@ -57,8 +66,10 @@ PostItem.propTypes = {
     auth: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     showActions: PropTypes.bool,
+    likePost: PropTypes.func.isRequired,
+    unlikePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({auth: state.auth});
 
-export default connect(mapStateToProps, {})(PostItem);
+export default connect(mapStateToProps, {likePost, unlikePost})(PostItem);

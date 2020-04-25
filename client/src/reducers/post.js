@@ -45,6 +45,15 @@ export default (state = initialState, action) => {
                 ),
                 loading: false,
             };
+        case UPDATE_LIKES:
+            const {id, likes} = action.payload;
+            return {
+                ...state,
+                posts: state.posts.map((post) =>
+                    post._id === id ? {...post, likes} : post
+                ),
+                loading: false,
+            };
         case POST_ERROR:
             return {
                 ...state,

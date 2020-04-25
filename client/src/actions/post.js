@@ -102,3 +102,41 @@ export const deletePost = (id) => async (dispatch) => {
         });
     }
 };
+
+export const likePost = (id) => async (dispatch) => {
+    try {
+        const res = await axios.put(`/api/posts/like/${id}`);
+
+        dispatch({
+            type: UPDATE_LIKES,
+            payload: {likes: res.data, id},
+        });
+    } catch (error) {
+        dispatch({
+            type: POST_ERROR,
+            payload: {
+                msg: error.response.data.msg,
+                status: error.response.status,
+            },
+        });
+    }
+};
+
+export const unlikePost = (id) => async (dispatch) => {
+    try {
+        const res = await axios.put(`/api/posts/unlike/${id}`);
+
+        dispatch({
+            type: UPDATE_LIKES,
+            payload: {likes: res.data, id},
+        });
+    } catch (error) {
+        dispatch({
+            type: POST_ERROR,
+            payload: {
+                msg: error.response.data.msg,
+                status: error.response.status,
+            },
+        });
+    }
+};
