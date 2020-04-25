@@ -30,7 +30,6 @@ const PostItem = ({auth, post, showActions, likePost, unlikePost}) => {
                         >
                             <i className="fas fa-thumbs-up" />{' '}
                             {likes.length > 0 && <span>{likes.length}</span>}
-                            {/* <span>{likes.length > 0 && likes.length}</span> */}
                         </button>
                         <button
                             onClick={() => unlikePost(_id)}
