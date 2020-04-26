@@ -221,14 +221,14 @@ router.delete('/comment/:post_id/:comment_id', auth, async (req, res) => {
         if (comment.user.toString() !== req.user.id) {
             return res.status(401).json({msg: 'User not authorized'});
         }
-        const removeIndex = post.comments.findIndex(
-            (comment) => comment.id === req.params.comment_id
+
+        post.comments = post.comments.filter(
+            ({id}) => id !== req.params.comment_id
         );
-        post.comments.splice(removeIndex, 1);
 
         await post.save();
 
-        res.json(post.comments);
+        return res.json(post.comments);
     } catch (error) {
         console.error(error);
         if (error.name === 'CastError') {

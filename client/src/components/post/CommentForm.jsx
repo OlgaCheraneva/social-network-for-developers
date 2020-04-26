@@ -40,7 +40,7 @@ const CommentForm = ({postId, addComment}) => {
 };
 
 CommentForm.propTypes = {
-    postId: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
     addComment: PropTypes.func.isRequired,
 };
 
